@@ -47,9 +47,9 @@ const createThread = function() {
   var title = document.getElementById("thread-form-title-input").value;
   var text = document.getElementById("thread-form-comment-input").value;
   console.log(name, title, text);
-  // queryHelper.all(function(result) {
-  //   console.log(result);
-  // })
+  queryHelper.all(function(result) {
+    console.log(result);
+  })
   var post = {
     name: name,
     title: title,
