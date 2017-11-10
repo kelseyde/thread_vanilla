@@ -1,9 +1,45 @@
 var queryHelper = require("../server/db/query_helper.js");
 
 const initialiseReplyButton = function(post) {
-  if (post.title) { var parent = document.getElementById("content-div") }
-  if (!post.title) { var parent = document.getElementById("postDiv") }
-  console.log(parent);
+
+  var parent = document.getElementById("post-div");
+
+  var form = document.createElement("form");
+  form.id = "reply-form";
+
+  var nameDiv = document.createElement("div");
+  nameDiv.id = "reply-name-div";
+  var nameLabel = document.createElement("label");
+  nameLabel.innerText = "name: "
+  nameLabel.id = "reply-name-label";
+  var nameInput = document.createElement("input");
+  nameInput.type = "text";
+  nameInput.id = "reply-name-input";
+  nameDiv.appendChild(nameLabel);
+  nameDiv.appendChild(nameInput);
+
+  var commentDiv = document.createElement("div");
+  commentDiv.id = "comment-div";
+  var commentLabel = document.createElement("label");
+  commentLabel.innerText = "comment: "
+  commentLabel.id = "thread-form-comment-label";
+  var commentInput = document.createElement("textarea");
+  commentInput.type = "text";
+  commentInput.id = "thread-form-comment-input";
+  commentDiv.appendChild(commentLabel);
+  commentDiv.appendChild(commentInput);
+
+
+  var submit = document.createElement("input");
+  submit.type = "submit";
+  submit.value = "submit";
+  submit.id = document.createElement("form-submit");
+
+  form.appendChild(nameDiv);
+  form.appendChild(commentDiv);
+  form.appendChild(submit);
+  parent.appendChild(form);
+
 }
 
 const createThread = function() {
@@ -99,6 +135,7 @@ const createThreadForm = function() {
   var submit = document.createElement("input");
   submit.type = "submit";
   submit.id = document.createElement("form-submit");
+  submit.value = "submit";
 
   form.appendChild(formTitle);
   form.appendChild(nameDiv);

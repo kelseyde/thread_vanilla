@@ -106,3 +106,8 @@
   margin-top: 0px;
   font-size: 13px;
 }
+
+#reply-form {
+  border: 1px solid black;
+  border-radius: 10px;
+}
