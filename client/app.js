@@ -1,8 +1,25 @@
-var queryHelper = require("../server/db/query_helper.js");
+var requestHelper = require("./helpers/request_helper.js");
+
+const addReply = function(post, comment) {
+  if (post.title) { var parent = document.getElementById("content-div") }
+  if (!post.title) { var parent = document.getElementById("post-div") }
+  var replyDiv = document.createElement("div");
+  replyDiv.id = "reply-div";
+  var name = document.createElement("p");
+  name.innerText = comment.name;
+  var text = document.createElement("p");
+  text.innerText = comment.text;
+  parent.appendChild(replyDiv);
+  replyDiv.appendChild(name);
+  replyDiv.appendChild(text);
+}
 
 const initialiseReplyButton = function(post) {
 
   var parent = document.getElementById("post-div");
+
+  var replyButton = document.getElementById("reply-button");
+  parent.removeChild(replyButton);
 
   var form = document.createElement("form");
   form.id = "reply-form";
@@ -22,10 +39,10 @@ const initialiseReplyButton = function(post) {
   commentDiv.id = "comment-div";
   var commentLabel = document.createElement("label");
   commentLabel.innerText = "comment: "
-  commentLabel.id = "thread-form-comment-label";
+  commentLabel.id = "reply-text-label";
   var commentInput = document.createElement("textarea");
   commentInput.type = "text";
-  commentInput.id = "thread-form-comment-input";
+  commentInput.id = "reply-text-input";
   commentDiv.appendChild(commentLabel);
   commentDiv.appendChild(commentInput);
 
@@ -33,12 +50,25 @@ const initialiseReplyButton = function(post) {
   var submit = document.createElement("input");
   submit.type = "submit";
   submit.value = "submit";
-  submit.id = document.createElement("form-submit");
+  submit.id = "reply-form-submit";
 
   form.appendChild(nameDiv);
   form.appendChild(commentDiv);
   form.appendChild(submit);
   parent.appendChild(form);
+
+  form.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    var comment = {
+      name: nameInput.value,
+      text: commentInput.value,
+      children: []
+    }
+    post.children.push(comment);
+    form.parentElement.removeChild(form);
+    addReply(post, comment);
+  });
 
 }
 
@@ -47,9 +77,9 @@ const createThread = function() {
   var title = document.getElementById("thread-form-title-input").value;
   var text = document.getElementById("thread-form-comment-input").value;
   console.log(name, title, text);
-  queryHelper.all(function(result) {
-    console.log(result);
-  })
+  // queryHelper.all(function(result) {
+  //   console.log(result);
+  // })
   var post = {
     name: name,
     title: title,
@@ -147,7 +177,7 @@ const createThreadForm = function() {
 }
 
 const initialiseStartButton = function() {
-  let start = document.getElementById("start");
+  var start = document.getElementById("start");
   start.addEventListener("click", createThreadForm);
 }
 

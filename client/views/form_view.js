@@ -1,0 +1,7 @@
+var formView = {
+
+  createThreadForm: function() {
+    
+  }
+
+}
